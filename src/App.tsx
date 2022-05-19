@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 
 import './App.css';
 import { difference, orderBy } from 'lodash';
+import { compareLocale } from './helpers/compareLocale';
+import { sortDirectionDecorator } from './helpers/sortDirectionDecorator';
 
 const characters = [
   { name: 'Luke Skywalker' },
@@ -103,7 +105,17 @@ function App() {
         >
           Load more
         </button>
-        <button onClick={() => setArrayIndex3(prev => orderBy(prev, 'name', ['asc']))}>Asc</button>
+        <button
+          onClick={() =>
+            setArrayIndex3(prev => [
+              ...prev.sort(({ name: a }, { name: b }) =>
+                sortDirectionDecorator(compareLocale)('asc')(a, b)
+              ),
+            ])
+          }
+        >
+          Asc
+        </button>
         <button onClick={() => setArrayIndex3(prev => orderBy(prev, 'name', ['desc']))}>
           Desc
         </button>
